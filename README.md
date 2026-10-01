@@ -6,3 +6,7 @@ A workspace for office-related scripts and tools.
 
 Clone the repository and open it in your editor of choice.
 
+```powershell
+git clone https://github.com/SOMNATHSAREN/office-project.git
+cd office-project
+```
