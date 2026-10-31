@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= htmlspecialchars($page_title ?? 'Office Management System') ?></title>
+<link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/img/sail-logo.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
@@ -21,8 +22,10 @@
 <!-- Sidebar -->
 <div class="sidebar d-flex flex-column p-3" style="width:230px;min-width:230px;">
   <a href="<?= BASE_URL ?>/index.php" class="text-white text-decoration-none mb-3 d-flex align-items-center gap-2">
-    <i class="bi bi-buildings fs-5"></i>
-    <span class="fw-bold">Office MS</span>
+    <span class="bg-white rounded-2 d-inline-flex align-items-center justify-content-center" style="width:40px;height:40px;flex:0 0 auto;">
+      <img src="<?= BASE_URL ?>/assets/img/sail-logo.png" alt="SAIL" style="height:30px;width:auto;">
+    </span>
+    <span class="fw-bold">SAIL&nbsp;·&nbsp;Office MS</span>
   </a>
   <hr class="border-secondary">
   <nav class="nav flex-column gap-1 mb-2">
@@ -31,13 +34,20 @@
       <i class="bi bi-speedometer2 me-2"></i>Dashboard
     </a>
   </nav>
+  <?php if (can_do('emp_view')): ?>
   <div class="nav-section">Personal Info</div>
   <nav class="nav flex-column gap-1 mb-2">
-    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/employees/') !== false) ? 'active':'' ?>"
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/employees/index') !== false || strpos($_SERVER['PHP_SELF'],'/employees/add') !== false || strpos($_SERVER['PHP_SELF'],'/employees/edit') !== false || strpos($_SERVER['PHP_SELF'],'/employees/increments') !== false || strpos($_SERVER['PHP_SELF'],'/employees/report') !== false || strpos($_SERVER['PHP_SELF'],'/employees/profile') !== false) ? 'active':'' ?>"
        href="<?= BASE_URL ?>/modules/employees/index.php">
       <i class="bi bi-people me-2"></i>Employees
     </a>
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/employees/quarter_charges') !== false) ? 'active':'' ?>"
+       href="<?= BASE_URL ?>/modules/employees/quarter_charges.php">
+      <i class="bi bi-house-gear me-2"></i>Quarter Charges
+    </a>
   </nav>
+  <?php endif; ?>
+  <?php if (can_do('att_view')): ?>
   <div class="nav-section">Attendance</div>
   <nav class="nav flex-column gap-1 mb-2">
     <?php if (can_do('att_write')): ?>
@@ -75,6 +85,41 @@
     </a>
     <?php endif; ?>
   </nav>
+  <?php endif; ?>
+  <?php if (can_do('pay_view')): ?>
+  <div class="nav-section">Payments</div>
+  <nav class="nav flex-column gap-1 mb-2">
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/payments/') !== false) ? 'active':'' ?>"
+       href="<?= BASE_URL ?>/modules/payments/index.php">
+      <i class="bi bi-cash-stack me-2"></i>Payments &amp; Advances
+    </a>
+  </nav>
+  <?php endif; ?>
+  <?php if (can_do('ccs_view')): ?>
+  <div class="nav-section">Credit Society</div>
+  <nav class="nav flex-column gap-1 mb-2">
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/society/members') !== false || strpos($_SERVER['PHP_SELF'],'/society/member_') !== false || strpos($_SERVER['PHP_SELF'],'/society/passbook') !== false) ? 'active':'' ?>"
+       href="<?= BASE_URL ?>/modules/society/members.php">
+      <i class="bi bi-people me-2"></i>Members &amp; Shares
+    </a>
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/society/deposit') !== false || strpos($_SERVER['PHP_SELF'],'/society/schemes') !== false) ? 'active':'' ?>"
+       href="<?= BASE_URL ?>/modules/society/deposits.php">
+      <i class="bi bi-piggy-bank me-2"></i>RD / Deposits
+    </a>
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/society/loan') !== false) ? 'active':'' ?>"
+       href="<?= BASE_URL ?>/modules/society/loans.php">
+      <i class="bi bi-cash-coin me-2"></i>Loans
+    </a>
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/society/recovery') !== false) ? 'active':'' ?>"
+       href="<?= BASE_URL ?>/modules/society/recovery.php">
+      <i class="bi bi-arrow-down-circle me-2"></i>Monthly Recovery
+    </a>
+    <a class="nav-link px-3 py-2 <?= (strpos($_SERVER['PHP_SELF'],'/society/report') !== false) ? 'active':'' ?>"
+       href="<?= BASE_URL ?>/modules/society/reports.php">
+      <i class="bi bi-file-earmark-bar-graph me-2"></i>Reports
+    </a>
+  </nav>
+  <?php endif; ?>
   <?php if (can_do('admin_panel') || can_do('user_mgmt')): ?>
   <div class="nav-section">Admin</div>
   <nav class="nav flex-column gap-1 mb-2">
@@ -115,6 +160,30 @@
 <div class="flex-grow-1 d-flex flex-column" style="min-width:0;">
   <div class="topbar px-4 py-2 d-flex align-items-center justify-content-between">
     <h6 class="mb-0 fw-semibold"><?= htmlspecialchars($page_title ?? '') ?></h6>
-    <span class="text-muted small"><i class="bi bi-person-circle me-1"></i><?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
+    <div class="dropdown">
+      <a href="#" class="text-decoration-none text-muted small d-flex align-items-center gap-1 dropdown-toggle"
+         id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle fs-5"></i>
+        <span class="fw-semibold"><?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userMenu">
+        <li class="dropdown-header">
+          <?= htmlspecialchars($_SESSION['username'] ?? '') ?>
+          <?php $rbm=['admin'=>'Admin','manager'=>'Manager','hr'=>'HR']; ?>
+          <span class="badge bg-secondary ms-1"><?= $rbm[$_SESSION['role'] ?? ''] ?? 'User' ?></span>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item" href="<?= BASE_URL ?>/modules/account/change_password.php">
+            <i class="bi bi-key me-2"></i>Change Password
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item text-danger" href="<?= BASE_URL ?>/auth/logout.php">
+            <i class="bi bi-box-arrow-right me-2"></i>Logout
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="p-4 flex-grow-1">
