@@ -1,0 +1,8 @@
+{
+    "enabled": false,
+    "frequency": "daily",
+    "hour": 2,
+    "keep_count": 7,
+    "compress": false,
+    "last_auto_backup": null
+}
