@@ -85,6 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     transform:translate(-50%,-50%);
     border:1px solid rgba(255,255,255,.08); border-radius:50%;
   }
+  .hero .hero-mark{
+    position:absolute; top:34%; left:50%; width:200px; max-width:50%;
+    transform:translate(-50%,-50%);
+    opacity:.22;                 /* transparent white silhouette watermark */
+    pointer-events:none; z-index:0;
+  }
   .hero .ring::after{
     content:""; position:absolute; inset:48px; border-radius:50%;
     border:1px solid rgba(255,255,255,.06);
@@ -152,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <section class="hero">
     <p class="tagline">Office Management System — attendance, employees, payroll &amp; society, all in one place.</p>
     <div class="ring"></div>
+    <img src="<?= BASE_URL ?>/assets/img/sail-logo-white.png?v=2" class="hero-mark" alt="">
     <h1>Manage<br>your office</h1>
     <div class="foot">
       <span class="badge-stat"><i class="bi bi-shield-lock"></i> Secure access</span>
