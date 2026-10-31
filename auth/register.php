@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sign Up — Office Management System</title>
+<link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/img/sail-logo.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <style>
@@ -82,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   .hero .foot{ display:flex; justify-content:space-between; align-items:center; color:#8c7f74; font-size:.8rem; margin-top:28px; }
   .panel{ padding:40px 56px; display:flex; flex-direction:column; }
   .panel .top{ display:flex; justify-content:space-between; align-items:center; }
-  .logo{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.25rem; color:var(--ink); }
-  .logo .dot{ width:26px; height:26px; border-radius:50%; background:conic-gradient(from 0deg,var(--brand1),var(--brand2),#9b59b6,var(--brand1)); }
+  .logo{ display:flex; align-items:center; gap:12px; font-weight:800; font-size:1.25rem; color:var(--ink); }
+  .logo img{ height:42px; width:auto; display:block; }
   .panel a.link{ color:var(--brand1); text-decoration:none; font-weight:600; }
   .panel a.link:hover{ text-decoration:underline; }
   .wrap{ margin:auto 0; width:100%; max-width:460px; align-self:center; }
@@ -123,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <section class="panel">
     <div class="top">
-      <div class="logo"><span class="dot"></span> Office MS</div>
+      <div class="logo"><img src="<?= BASE_URL ?>/assets/img/sail-logo.png" alt="SAIL"> <span>Office MS</span></div>
       <a class="link" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
     </div>
 
